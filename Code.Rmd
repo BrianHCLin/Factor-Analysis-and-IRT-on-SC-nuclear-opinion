@@ -1,0 +1,80 @@
+---
+title: "Draft 2"
+author: "Brian Lin"
+date: "October 17, 2017"
+output: html_document
+---
+```{r, warning= FALSE}
+library(psych)
+library(pander)
+library(xtable)
+library(psy)
+
+setwd("A:/Fall 2017/Stats 154/")
+load("ICPSR_34871/DS0001/34871-0001-Data.rda")
+
+df1 <- da34871.0001
+
+df2 <- na.omit(df1[,2:19])
+df3 <- as.data.frame(lapply(df2,as.integer))
+
+#rekeying
+#rekeying
+rekey <- function(item){
+  item[item == 1] <- 8L
+  item[item == 2] <- 7L
+  item[item == 3] <- 6L
+  item[item == 4] <- 5L
+  item <- item - 4L
+  return(item)
+}
+df3$Q9 <- rekey(df3$Q9)
+df3$Q10 <- rekey(df3$Q10)
+df3$Q15 <- rekey(df3$Q15)
+
+binary <- function(df){
+  for(i in  1:18){
+    df[,i][df[,i] < 3] <- 0L
+    df[,i][df[,i] >= 3] <- 1L
+  }
+  return(df)
+}
+
+
+df4 <- binary(df3)
+
+
+pca <- princomp(df3)
+summary(pca)
+plot(pca)
+
+pca <-princomp(df4)
+plot(pca)
+pca
+
+#polychoric correlation 
+polychoric(df4)
+
+#polyserial correlation 
+polyserial(df4,df4)
+
+
+plot(princomp(df3))
+
+
+fa <- factanal(df3, 4, rotation = "varimax")
+fa 
+print(fa, cutoff = 0.1, sort = TRUE)
+
+load <- fa$loadings[,1:2]
+plot(load, type = "n")
+text(load,labels=names(df3),cex=1)
+
+
+ev <- eigen(cor(df3))
+ev$values
+kaiser(fa)
+scree.plot(cor(df3))
+
+```
+
