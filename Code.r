@@ -1,15 +1,5 @@
----
-title: "Laptop draft"
-author: "Brian Lin"
-date: "October 18, 2017"
-output:
-  word_document: default
-  pdf_document: default
-  html_document: default
-editor_options:
-  chunk_output_type: console
----
-```{r warning = FALSE}
+
+#load packages
 library(ltm)
 library(psych)
 library(knitr)
@@ -17,23 +7,21 @@ library(pander)
 library(knitr)
 library(psych)
 
-```
 
-
-```{r}
 #load data
 setwd("A:/Fall 2017/Stats 154/ICPSR_34871/DS0001/")
 load("34871-0001-Data.rda")
-```
 
-
-```{r}
 #exploratory factor analysis
 
 
 df1 <- da34871.0001
 df1 <- df1[,c(2:19)]
 df2 <- as.data.frame(lapply(df1,as.integer))
+
+
+
+
 
 #remove NA
 df2 <- na.omit(df2)
@@ -148,9 +136,8 @@ alhpa_value
 alpha(df3)
 
 
-```
 
-```{r}
+
 #IRT section
 
 #rasch 
@@ -234,5 +221,5 @@ person.fit(tpm_m1)
 
 
 
-```
+
 
